@@ -17,7 +17,7 @@ class GameScene: SKScene {
     
     var gameLogo: SKLabelNode!
     var playButton: SKShapeNode!
-    var bestScore: SKLabelNode
+    var bestScore: SKLabelNode!
     
     
     
@@ -82,7 +82,7 @@ class GameScene: SKScene {
         gameLogo.position = CGPoint(x: 0, y: (frame.size.height / 2) - 200)
         gameLogo.fontSize = 60
         gameLogo.text = "Reflex Tester!"
-        gameLogo.fontColor = SKColor.red
+        gameLogo.fontColor = SKColor.blue
         self.addChild(gameLogo)
         
         bestScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
@@ -90,7 +90,7 @@ class GameScene: SKScene {
         bestScore.position = CGPoint(x: 0, y: gameLogo.position.y - 50)
         bestScore.fontSize = 40
         bestScore.text = "Fastest Time: 0"
-        bestScore.fontColor = SKColor.white
+        bestScore.fontColor = SKColor.lightGray
         bestScore.text = "Fastest Time: \(UserDefaults.standard.integer(forKey: "bestScore"))"
         self.addChild(bestScore)
         
