@@ -21,6 +21,10 @@ class GameScene: SKScene {
     var backButton: SKLabelNode!
     var normalGame: SKLabelNode!
     var tenGameMode: SKLabelNode!
+    var gameBG: SKShapeNode!
+    var gameArray: [(node: SKShapeNode, x: Int, y: Int)] = []
+    var gameExplainText: SKLabelNode!
+    var redSquare: SKShapeNode!
     
     
     
@@ -66,9 +70,15 @@ class GameScene: SKScene {
                     self.normalGame.isHidden = true
                     self.tenGameMode.isHidden = true
                 } else if node.name == "normal_game" {
-                    //normalGame()
+                    normalGameFunc()
+                    self.backButton.isHidden = true
+                    self.normalGame.isHidden = true
+                    self.tenGameMode.isHidden = true
                 } else if node.name == "10_game_mode" {
-                    //tenGameMode()
+                    tenGameModeFunc()
+                    self.backButton.isHidden = true
+                    self.normalGame.isHidden = true
+                    self.tenGameMode.isHidden = true
                 }
             }
         }
@@ -163,4 +173,61 @@ class GameScene: SKScene {
         normalGame.name = "normal_game"
         self.addChild(normalGame)
     }
+    
+//    private func createGameBoard(width: Int, height: Int) {
+//        gameBG
+//        let cellWidth: CGFloat = CGFloat(width) / 20
+//        let cellHeight: CGFloat = CGFloat(height) / 40.0
+//        let numRows = 20
+//        let numCols = 10
+//        var x = CGFloat(width / -2) + (cellWidth / 2)
+//        var y = CGFloat(height / 2) - (cellHeight / 2)
+//        //for loop for cell creation
+//        for i in 0...numRows - 1 {
+//            for j in 0...numCols - 1 {
+//                let cellNode = SKShapeNode(rectOf: CGSize(width: cellWidth, height: cellHeight))
+//                cellNode.strokeColor = SKColor.red
+//                cellNode.zPosition = 2
+//                cellNode.position = CGPoint(x: x, y: y)
+//                gameArray.append((node: cellNode, x: i, y: j))
+//                gameBG.addChild(cellNode)
+//
+//                x += cellWidth
+//            }
+//            x = CGFloat(width / -2) + (cellWidth / 2)
+//            y -= cellWidth
+//        }
+//    }
+    
+    func normalGameFunc() {
+        gameExplainText = SKLabelNode(fontNamed: "PalatinoBoldItalic")
+        gameExplainText.zPosition = 1
+        gameExplainText.position = CGPoint(x: 0, y: (frame.size.height / 2) - 200)
+        gameExplainText.fontSize = 25
+        gameExplainText.fontColor = SKColor.red
+        gameExplainText.text = "CLICK THE BUTTON WHEN IT TURNS GREEN"
+        self.addChild(gameExplainText)
+        
+        redSquare = SKShapeNode()
+        redSquare.name = "red_square"
+        redSquare.zPosition = 1
+        redSquare.position = CGPoint(x: 0, y: 0)
+        redSquare.fillColor = SKColor.red
+        
+        let topleftCorner = CGPoint(x: -50, y: 50)
+        let bottomleftCorner = CGPoint(x: -50, y: -50)
+        let toprightCorner = CGPoint(x: 50, y: 50)
+        let bottomrightCorner = CGPoint(x: 50, y: -50)
+        let path = CGMutablePath()
+        path.addLines(between: [topleftCorner, bottomleftCorner, bottomrightCorner, toprightCorner])
+        redSquare.path = path
+        self.addChild(redSquare)
+        
+    }
+    
+    func tenGameModeFunc() {
+        
+        print("ten gm")
+    }
+    
 }
