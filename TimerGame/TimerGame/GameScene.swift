@@ -18,6 +18,9 @@ class GameScene: SKScene {
     var gameLogo: SKLabelNode!
     var playButton: SKShapeNode!
     var bestScore: SKLabelNode!
+    var backButton: SKLabelNode!
+    var normalGame: SKLabelNode!
+    var tenGameMode: SKLabelNode!
     
     
     
@@ -56,7 +59,16 @@ class GameScene: SKScene {
             let touchedNode = self.nodes(at: location)
             for node in touchedNode {
                 if node.name == "play_button" {
-                    startGame()
+                    gameModeSelect()
+                } else if node.name == "back_button" {
+                    initializeMenu()
+                    self.backButton.isHidden = true
+                    self.normalGame.isHidden = true
+                    self.tenGameMode.isHidden = true
+                } else if node.name == "normal_game" {
+                    //normalGame()
+                } else if node.name == "10_game_mode" {
+                    //tenGameMode()
                 }
             }
         }
@@ -111,12 +123,44 @@ class GameScene: SKScene {
         path.addLines(between: [topCorner, bottomCorner, middle])
         playButton.path = path
         self.addChild(playButton)
+        
+//        self.backButton.isHidden = true
+//        self.tenGameMode.isHidden = true
+//        self.normalGame.isHidden = true
     }
     
-    func startGame() {
-        print("started")
+    func gameModeSelect() {
+        print("next menu")
         self.gameLogo.isHidden = true
         self.playButton.isHidden = true
         self.bestScore.isHidden = true
+        
+        backButton = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+        backButton.zPosition = 1
+        backButton.position = CGPoint(x: -250, y: (frame.size.height / 2) - 175)
+        backButton.fontSize = 30
+        backButton.text = "Back"
+        backButton.fontColor = SKColor.blue
+        backButton.name = "back_button"
+        print("back to main")
+        self.addChild(backButton)
+        
+        tenGameMode = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+        tenGameMode.zPosition = 1
+        tenGameMode.position = CGPoint(x: 0, y: backButton.position.y - 600)
+        tenGameMode.fontSize = 40
+        tenGameMode.fontColor = SKColor.lightGray
+        tenGameMode.text = "10 Click Game"
+        tenGameMode.name = "10_game_mode"
+        self.addChild(tenGameMode)
+        
+        normalGame = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+        normalGame.zPosition = 1
+        normalGame.position = CGPoint(x: 0, y: backButton.position.y - 500)
+        normalGame.fontSize = 40
+        normalGame.fontColor = SKColor.lightGray
+        normalGame.text = "Normal Game"
+        normalGame.name = "normal_game"
+        self.addChild(normalGame)
     }
 }
