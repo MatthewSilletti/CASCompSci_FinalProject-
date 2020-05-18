@@ -21,6 +21,19 @@ class GameScene: SKScene {
     var backButton: SKLabelNode!
     var normalGame: SKLabelNode!
     var tenGameMode: SKLabelNode!
+    var gameBG: SKShapeNode!
+    var gameArray: [(node: SKShapeNode, x: Int, y: Int)] = []
+    var gameExplainText: SKLabelNode!
+    var redSquare: SKShapeNode!
+    var redSquare1: SKShapeNode!
+    var redSquare2: SKShapeNode!
+    var redSquare3: SKShapeNode!
+    var redSquare4: SKShapeNode!
+    var redSquare5: SKShapeNode!
+    var redSquare6: SKShapeNode!
+    var redSquare7: SKShapeNode!
+    var redSquare8: SKShapeNode!
+    var redSquare9: SKShapeNode!
     
     
     
@@ -66,9 +79,15 @@ class GameScene: SKScene {
                     self.normalGame.isHidden = true
                     self.tenGameMode.isHidden = true
                 } else if node.name == "normal_game" {
-                    //normalGame()
+                    normalGameFunc()
+                    self.backButton.isHidden = true
+                    self.normalGame.isHidden = true
+                    self.tenGameMode.isHidden = true
                 } else if node.name == "10_game_mode" {
-                    //tenGameMode()
+                    tenGameModeFunc()
+                    self.backButton.isHidden = true
+                    self.normalGame.isHidden = true
+                    self.tenGameMode.isHidden = true
                 }
             }
         }
@@ -163,4 +182,157 @@ class GameScene: SKScene {
         normalGame.name = "normal_game"
         self.addChild(normalGame)
     }
+    
+//    private func createGameBoard(width: Int, height: Int) {
+//        gameBG
+//        let cellWidth: CGFloat = CGFloat(width) / 20
+//        let cellHeight: CGFloat = CGFloat(height) / 40.0
+//        let numRows = 20
+//        let numCols = 10
+//        var x = CGFloat(width / -2) + (cellWidth / 2)
+//        var y = CGFloat(height / 2) - (cellHeight / 2)
+//        //for loop for cell creation
+//        for i in 0...numRows - 1 {
+//            for j in 0...numCols - 1 {
+//                let cellNode = SKShapeNode(rectOf: CGSize(width: cellWidth, height: cellHeight))
+//                cellNode.strokeColor = SKColor.red
+//                cellNode.zPosition = 2
+//                cellNode.position = CGPoint(x: x, y: y)
+//                gameArray.append((node: cellNode, x: i, y: j))
+//                gameBG.addChild(cellNode)
+//
+//                x += cellWidth
+//            }
+//            x = CGFloat(width / -2) + (cellWidth / 2)
+//            y -= cellWidth
+//        }
+//    }
+    
+    func normalGameFunc() {
+        gameExplainText = SKLabelNode(fontNamed: "PalatinoBoldItalic")
+        gameExplainText.zPosition = 1
+        gameExplainText.position = CGPoint(x: 0, y: (frame.size.height / 2) - 200)
+        gameExplainText.fontSize = 25
+        gameExplainText.fontColor = SKColor.red
+        gameExplainText.text = "CLICK THE BUTTON WHEN IT TURNS GREEN"
+        self.addChild(gameExplainText)
+        
+        redSquare = SKShapeNode()
+        redSquare.name = "red_square"
+        redSquare.zPosition = 1
+        redSquare.position = CGPoint(x: 0, y: 0)
+        redSquare.fillColor = SKColor.red
+        
+        let topleftCorner = CGPoint(x: -50, y: 50)
+        let bottomleftCorner = CGPoint(x: -50, y: -50)
+        let toprightCorner = CGPoint(x: 50, y: 50)
+        let bottomrightCorner = CGPoint(x: 50, y: -50)
+        let path = CGMutablePath()
+        path.addLines(between: [topleftCorner, bottomleftCorner, bottomrightCorner, toprightCorner])
+        redSquare.path = path
+        self.addChild(redSquare)
+        
+    }
+    
+    func tenGameModeFunc() {
+        gameExplainText = SKLabelNode(fontNamed: "PalatinoBoldItalic")
+        gameExplainText.zPosition = 1
+        gameExplainText.position = CGPoint(x: 0, y: (frame.size.height / 2) - 200)
+        gameExplainText.fontSize = 25
+        gameExplainText.fontColor = SKColor.cyan
+        gameExplainText.text = "CLICK EVERY BUTTON AS FAST AS YOU CAN"
+        self.addChild(gameExplainText)
+
+        redSquare = SKShapeNode()
+        redSquare.name = "red_square"
+        redSquare.zPosition = 1
+        redSquare.position = CGPoint(x: 0, y: 0)
+        redSquare.fillColor = SKColor.red
+        
+        redSquare1 = SKShapeNode()
+        redSquare1.name = "red_square1"
+        redSquare1.zPosition = 1
+        redSquare1.position = CGPoint(x: 0, y: 200)
+        redSquare1.fillColor = SKColor.red
+        
+        redSquare2 = SKShapeNode()
+        redSquare2.name = "red_square2"
+        redSquare2.zPosition = 1
+        redSquare2.position = CGPoint(x: 0, y: -200)
+        redSquare2.fillColor = SKColor.red
+        
+        redSquare3 = SKShapeNode()
+        redSquare3.name = "red_square3"
+        redSquare3.zPosition = 1
+        redSquare3.position = CGPoint(x: 200, y: 0)
+        redSquare3.fillColor = SKColor.red
+        
+        redSquare4 = SKShapeNode()
+        redSquare4.name = "red_square4"
+        redSquare4.zPosition = 1
+        redSquare4.position = CGPoint(x: -200, y: 0)
+        redSquare4.fillColor = SKColor.red
+        
+        redSquare5 = SKShapeNode()
+        redSquare5.name = "red_square5"
+        redSquare5.zPosition = 1
+        redSquare5.position = CGPoint(x: 200, y: 200)
+        redSquare5.fillColor = SKColor.red
+        
+        redSquare6 = SKShapeNode()
+        redSquare6.name = "red_square6"
+        redSquare6.zPosition = 1
+        redSquare6.position = CGPoint(x: 200, y: -200)
+        redSquare6.fillColor = SKColor.red
+        
+        redSquare7 = SKShapeNode()
+        redSquare7.name = "red_square7"
+        redSquare7.zPosition = 1
+        redSquare7.position = CGPoint(x: -200, y: -200)
+        redSquare7.fillColor = SKColor.red
+        
+        redSquare8 = SKShapeNode()
+        redSquare8.name = "red_square8"
+        redSquare8.zPosition = 1
+        redSquare8.position = CGPoint(x: -200, y: 200)
+        redSquare8.fillColor = SKColor.red
+        
+        let topleftCorner = CGPoint(x: -50, y: 50)
+        let bottomleftCorner = CGPoint(x: -50, y: -50)
+        let toprightCorner = CGPoint(x: 50, y: 50)
+        let bottomrightCorner = CGPoint(x: 50, y: -50)
+        let path = CGMutablePath()
+        path.addLines(between: [topleftCorner, bottomleftCorner, bottomrightCorner, toprightCorner])
+        
+        redSquare.path = path
+        self.addChild(redSquare)
+        
+        redSquare1.path = path
+        self.addChild(redSquare1)
+        
+        redSquare2.path = path
+        self.addChild(redSquare2)
+        
+        redSquare3.path = path
+        self.addChild(redSquare3)
+        
+        redSquare4.path = path
+        self.addChild(redSquare4)
+        
+        redSquare5.path = path
+        self.addChild(redSquare5)
+        
+        redSquare6.path = path
+        self.addChild(redSquare6)
+        
+        redSquare7.path = path
+        self.addChild(redSquare7)
+        
+        redSquare8.path = path
+        self.addChild(redSquare8)
+        
+        
+        print("ten gm")
+    }
+    
 }
