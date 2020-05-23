@@ -35,6 +35,9 @@ class GameScene: SKScene {
     var redSquare8: SKShapeNode!
     var redSquare9: SKShapeNode!
     
+    var nextTime: Double?
+    var timeExtention: Double = 0.15
+    
     
     
     override func didMove(to view: SKView) {
@@ -331,6 +334,16 @@ class GameScene: SKScene {
         redSquare8.path = path
         self.addChild(redSquare8)
         
+        func update(time: Double) {
+            if nextTime == nil {
+                nextTime = time + timeExtention
+            } else {
+                if time >= nextTime! {
+                    nextTime = time + timeExtention
+
+                }
+            }
+        }
         
         print("ten gm")
     }
