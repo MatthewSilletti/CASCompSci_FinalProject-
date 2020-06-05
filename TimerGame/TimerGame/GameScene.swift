@@ -15,8 +15,11 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
+    var gamemode: Int!
+    
     var gameLogo: SKLabelNode!
     var playButton: SKShapeNode!
+    var newPlayButton: SKShapeNode!
     var bestScore: SKLabelNode!
     var backButton: SKLabelNode!
     var normalGame: SKLabelNode!
@@ -35,11 +38,38 @@ class GameScene: SKScene {
     var redSquare8: SKShapeNode!
     var redSquare9: SKShapeNode!
     
+    var nextTime: Double?
+    var timeExtention: Double = 0.15
+    
+    var startButton: SKLabelNode!
+    var captureTimeButton: SKLabelNode!
+    var durationDisplay: SKLabelNode!
+    var countdownEnd: TimeInterval?
+    var countupStart: TimeInterval?
+    
+    
+    func makeButton(text: String, position: CGPoint) -> SKLabelNode {
+        let button = SKLabelNode()
+        button.color = SKColor.white
+        button.fontSize = 30
+        button.position = position
+        button.text = text
+        return button
+    }
     
     
     override func didMove(to view: SKView) {
         initializeMenu()
+//        startButton = makeButton(text: "Start", position: CGPoint(x: 0, y: 200))
+//        addChild(startButton)
+//
+//        captureTimeButton = makeButton(text: "Capture Time", position: CGPoint(x: 0, y: 0))
+//        addChild(captureTimeButton)
+//
+//        durationDisplay = makeButton(text: "0 Seconds", position: CGPoint(x: 0, y: -200))
+//        addChild(durationDisplay)
     }
+    
     
     
     func touchDown(atPoint pos : CGPoint) {
@@ -80,11 +110,50 @@ class GameScene: SKScene {
                     self.tenGameMode.isHidden = true
                 } else if node.name == "normal_game" {
                     normalGameFunc()
+                    gamemode = 0
                     self.backButton.isHidden = true
                     self.normalGame.isHidden = true
                     self.tenGameMode.isHidden = true
+                    self.durationDisplay.isHidden = false
+                    self.startButton.isHidden = false //
+                    newPlayButton = SKShapeNode()
+                    newPlayButton.name = "newplay_button"
+                    newPlayButton.zPosition = 1
+                    newPlayButton.position = CGPoint(x: 0, y: (frame.size.height / -2) + 200)
+                    newPlayButton.fillColor = SKColor.cyan
+                    
+                    let topCorner = CGPoint(x: -50, y: 50)
+                    let bottomCorner = CGPoint(x: -50, y: -50)
+                    let middle = CGPoint(x: 50, y: 0)
+                    let path = CGMutablePath()
+                    path.addLines(between: [topCorner, bottomCorner, middle])
+                    newPlayButton.path = path
+                    self.addChild(newPlayButton)
+                    for touch in touches {
+                        print("check 1")
+                        // THIS CHECK GOES THROUGH BUT IT ENDS THERE
+                        let location1 = touch.location(in: self)
+                        for node in nodes(at: location1) {
+                            print("check 2")
+                            // FOR SOME REASON IT WONT GET TO THIS POINT IN THE CODE, AND ITS LATE AT NIGHT AND WONT WORK
+                            if node == startButton && countdownEnd == nil && countupStart == nil, let timestamp = event?.timestamp {
+                                countdownEnd = timestamp + Double.random(in: 1.0...4.0)
+                                durationDisplay.text = "Wait For The Color Change"
+                                print("start button clicked")
+                            } else if node == redSquare, let unwrappedStart = countupStart, let timestamp = event?.timestamp {
+                                let duration = timestamp - unwrappedStart
+                                durationDisplay.text = "\(String(format:"%.4f", arguments: [duration])) seconds"
+                                countupStart = nil
+                                redSquare.fillColor = SKColor.green
+                            } else if node == redSquare && countdownEnd != nil {
+                                durationDisplay.text = "Too Soon"
+                                countdownEnd = nil
+                            }
+                        }
+                    }
                 } else if node.name == "10_game_mode" {
                     tenGameModeFunc()
+                    gamemode = 1
                     self.backButton.isHidden = true
                     self.normalGame.isHidden = true
                     self.tenGameMode.isHidden = true
@@ -107,7 +176,18 @@ class GameScene: SKScene {
     
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        if gamemode == 0 {
+            if let unwrappedCountdownEnd = countdownEnd, currentTime >= unwrappedCountdownEnd {
+                countupStart = currentTime
+                countdownEnd = nil
+            }
+            if let countupStart = countupStart {
+                let duration = currentTime - countupStart
+                durationDisplay.text = "\(String(format: "%.1f", arguments: [duration])) seconds"
+            }
+        } else if gamemode == 1 {
+
+        }
     }
     
     
@@ -217,6 +297,15 @@ class GameScene: SKScene {
         gameExplainText.text = "CLICK THE BUTTON WHEN IT TURNS GREEN"
         self.addChild(gameExplainText)
         
+        startButton = makeButton(text: "Start", position: CGPoint(x: 0, y: 250))
+        addChild(startButton)
+        
+        captureTimeButton = makeButton(text: "Capture Time", position: CGPoint(x: 0, y: 200))
+        addChild(captureTimeButton)
+        
+        durationDisplay = makeButton(text: "0 Seconds", position: CGPoint(x: 0, y: -200))
+        addChild(durationDisplay)
+        
         redSquare = SKShapeNode()
         redSquare.name = "red_square"
         redSquare.zPosition = 1
@@ -242,6 +331,15 @@ class GameScene: SKScene {
         gameExplainText.fontColor = SKColor.cyan
         gameExplainText.text = "CLICK EVERY BUTTON AS FAST AS YOU CAN"
         self.addChild(gameExplainText)
+        
+        startButton = makeButton(text: "Start", position: CGPoint(x: 0, y: 200))
+        addChild(startButton)
+        
+        captureTimeButton = makeButton(text: "Capture Time", position: CGPoint(x: 0, y: (frame.size.height / 2) - 225))
+        addChild(captureTimeButton)
+        
+        durationDisplay = makeButton(text: "0 Seconds", position: CGPoint(x: 0, y: (frame.size.height / 2) - 255))
+        addChild(durationDisplay)
 
         redSquare = SKShapeNode()
         redSquare.name = "red_square"
@@ -330,8 +428,7 @@ class GameScene: SKScene {
         
         redSquare8.path = path
         self.addChild(redSquare8)
-        
-        
+                
         print("ten gm")
     }
     
